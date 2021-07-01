@@ -1,0 +1,27 @@
+[{
+    "first_name":"kavin",
+    "last_name":"shukla",
+    "dob":"01-12-2001",
+    "communication":{
+        "phone":"5162708383",
+        "email":"manan.shukla2001@gmail.com"
+    },
+    "api server": "https://ripple-health.net/api/medication/000051",
+    "api parameters": {},
+    "template":"adherence",
+    "manufacturer":"ripplehealth",
+    "adherence":{
+        "medication_name":"Vitamin D",
+        "Dosage":"10 mg",
+        "Times per day":"2"
+    },
+    "alerts":{
+        "updates":"1",
+        "reminders":"1",
+        "daily_summary":"1",
+        "long_term":"1"
+    },
+    "identifiers":{
+        "BL_timestamp":"BL_pillstaken"
+    }
+}]
