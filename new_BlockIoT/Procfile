@@ -1,4 +1,2 @@
-web: gunicorn app:dashboard
-worker: python3.8 main.py
-worker: geth --dev --ipcpath ~/Library/Ethereum/geth.ipc
-worker: ipfs daemon
+web: gunicorn, app:dashboard
+worker: python start.py

@@ -55,6 +55,7 @@ def getpath(nested_dict, value, prepath=()):
                 return p
 
 def represent_data(contract):
+    print("first_name")
     config = ast.literal_eval(contract.functions.get_config_file().call())
     a = 0
     while(parse_adherence(contract) == False):
@@ -138,7 +139,7 @@ def daily_alerts(contract):
     config = ast.literal_eval(contract.functions.get_config_file().call())
     scheduler = {
         1:["08:00"],
-        2:["08:00","16:37"],
+        2:["08:00","12:00"],
         3:["08:00","12:00","17:00"]
     }
     if int(config["alerts"]["reminders"]) == 1:

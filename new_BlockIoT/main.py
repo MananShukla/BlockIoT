@@ -1,22 +1,22 @@
-
+from threading import Thread
 from register import * # type: ignore
 from adherence_helper import * # type: ignore
 from solidity_helper import * # type: ignore
 from blockchain import * # type: ignore
 from oracle import * # type: ignore
-from threading import Thread
-import schedule
+import schedule,os
 
 with open(r"/Users/manan/Documents/BlockIoT/Code/new_BlockIoT/.vscode/settings.json","r") as infile:
         settings = json.load(infile)
 # Keywords such as BL_timestamp signify what type of data will be present there. 
 
+with open(r"new_BlockIoT/contract_data.json","w") as infile:
+    json.dump({},infile)
 config = list()
 with open("new_BlockIoT/configs.json") as f:
     config = json.load(f)
 for element in config:
     registration(element)
-
 #To view a patient's data...
 patient_1 = {
     "first_name":"kavin",
@@ -38,6 +38,7 @@ def retrieve():
             some_data = json.load(f)
             f.close()
         if some_data != {}:
+            print("Got it")
             retrieve_data(some_data)
             with open("new_BlockIoT/command.json","w") as f:
                 json.dump({},f)

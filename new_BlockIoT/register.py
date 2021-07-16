@@ -84,7 +84,4 @@ def add_register_data(config,key):
     contract.functions.get_hash().call()
     contract.functions.set_consent(False).transact()
     contract.functions.control().transact()
-    make_api_call(contract)
-    if (config["template"] == "adherence"):
-        daily_alerts(contract)
     return True

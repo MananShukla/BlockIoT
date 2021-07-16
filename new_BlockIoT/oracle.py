@@ -15,8 +15,6 @@ import pretty_errors
 with open(r"new_BlockIoT/contract_data.json","r") as infile:
     contract_data = json.load(infile)
 
-old_data = dict()
-
 def make_api_call(contract):
     with open(r"/Users/manan/Documents/BlockIoT/Code/new_BlockIoT/.vscode/settings.json","r") as infile:
         settings = json.load(infile)
@@ -35,12 +33,11 @@ def make_api_call(contract):
     r = eval(config["manufacturer"])(api_call[1])
     df_data = dict()
     df_data = r
-    global old_data
-    if df_data != old_data:
-        send(config["communication"]["phone"],"Thanks for taking your medication today!")
-        old_data = df_data
     key = "calc_" + json.loads(contract.functions.get_config_file().call())['template'] + "_" + str(old_key)
     contract = w3.eth.contract(address=contract_data[str(key)][2],abi=contract_data[str(key)][0],bytecode=contract_data[str(key)][1])
+    df_old_data = contract.functions.get_data().call()
+    if str(df_data) != str(df_old_data):
+        send(config["communication"]["phone"],"Thanks for taking your medication today!")
     contract.functions.set_hash(old_key).transact()
     contract.functions.set_data(str(df_data)).transact()
     contract.functions.set_config_file(str(config)).transact()
@@ -56,8 +53,8 @@ def retrieve_data(patient):
         contract = w3.eth.contract(address=contract_data[key][2],abi=contract_data[key][0],bytecode=contract_data[key][1])
         if contract.functions.return_type().call() == "calculator":
             config = ast.literal_eval(contract.functions.get_config_file().call())
-            if config["first_name"] == patient["first_name"]:
-                if config["last_name"] == patient["last_name"]:
+            if config["first_name"].lower() == patient["first_name"].lower():
+                if config["last_name"].lower() == patient["last_name"].lower():
                     #contract.functions.represent().transact()
                     fig = represent_data(contract)
                     break

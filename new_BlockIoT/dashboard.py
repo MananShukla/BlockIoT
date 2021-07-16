@@ -13,8 +13,6 @@ external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 
-
-
 app.layout = html.Div([
     html.Div([
         html.Div([
@@ -29,15 +27,17 @@ app.layout = html.Div([
             html.Div([dcc.Markdown('**Date of Birth: **',style={'color':'#36558F','size':'14'}),dcc.Input(id='dob',value='',placeholder="MM-DD-YYYY", type='text')]),
             html.Br(),
             html.Br(),
-            html.Button(id='submit-button', type='submit',children='Submit',style={'color':'#40376E','size':'14'})], className='two columns'),
+            html.Button(id='submit-button', type='submit',children='Submit',style={'color':'#40376E','size':'14'})
+            ], className='two columns'),
             html.Br(),
-            html.Br(),
+            dcc.Markdown('# **               Welcome to BlockIoT!**',style={'color':'#36558F',"text-align":"center"}),
+        html.Div([
             dcc.Loading(
                     id="loading-1",
                     type="default",
-                    children=html.Div(id="loading-output-1")
+                    children=html.Div(id="loading-output-1",style={"text-align":"left"}),
+                    color='#48233C',
                 ),
-        html.Div([
             html.Br(),
             html.Div(dcc.Graph(id="chart"),style={"height": "90vh"})], className='ten columns'),
     ])
