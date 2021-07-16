@@ -4,15 +4,15 @@ from subprocess import DEVNULL, call
 
 
 def start_ethereum():
-    call(["geth","--dev","--ipcpath","~/Library/Ethereum/geth.ipc"],stderr=DEVNULL,stdout=DEVNULL)
+    call(["/home/ec2-user/go/bin/geth","--dev","--ipcpath","~/Library/Ethereum/geth.ipc"],stderr=DEVNULL,stdout=DEVNULL)
 
 def start_ipfs():
     call(["ipfs","daemon"],stderr=DEVNULL,stdout=DEVNULL)
 
 def start_dashboard():
-    call(["python3","/Users/manan/Documents/BlockIoT/Code/new_BlockIoT/dashboard.py"],stderr=DEVNULL,stdout=DEVNULL)
+    call(["python3","/home/ec2-user/BlockIoT/new_BlockIoT/dashboard.py"],stderr=DEVNULL,stdout=DEVNULL)
 def start_main():
-    call(["python3","/Users/manan/Documents/BlockIoT/Code/new_BlockIoT/main.py"])
+    call(["python3","/home/ec2-user/BlockIoT/new_BlockIoT/main.py"])
 if __name__ == '__main__':
     p = multiprocessing.Process(target=start_ethereum)
     p.start()
