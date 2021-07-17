@@ -1,4 +1,4 @@
-pragma solidity >0.5.16;
+pragma solidity >=0.4.16;
 
 contract emr {
     string[3] biometrics; //First name, last name, dob
