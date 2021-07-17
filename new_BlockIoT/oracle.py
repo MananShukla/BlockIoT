@@ -16,6 +16,8 @@ with open(r"contract_data.json","r") as infile:
     contract_data = json.load(infile)
 
 def make_api_call(contract):
+    with open(r"settings.json","r") as infile:
+        settings = json.load(infile)
     with open(r"contract_data.json","r") as infile:
         contract_data = json.load(infile)
     old_key = contract.functions.get_hash().call()
@@ -34,13 +36,13 @@ def make_api_call(contract):
     key = "calc_" + json.loads(contract.functions.get_config_file().call())['template'] + "_" + str(old_key)
     contract = w3.eth.contract(address=contract_data[str(key)][2],abi=contract_data[str(key)][0],bytecode=contract_data[str(key)][1])
     df_old_data = contract.functions.get_data().call()
-    if str(df_data) != str(df_old_data):
-        send(config["communication"]["phone"],"Thanks for taking your medication today!")
+    # if str(df_data) != str(df_old_data):
+    #     send(config["communication"]["phone"],"Thanks for taking your medication today!")
     contract.functions.set_hash(old_key).transact()
     contract.functions.set_data(str(df_data)).transact()
     contract.functions.set_config_file(str(config)).transact()
-    # contract.functions.set_time(str(int(datetime.now().timestamp())-2 * int(settings["Delay for Representing Data(in seconds)"]))).transact()
-    # contract.functions.set_alerttime(str(int(datetime.now().timestamp())-2 * int(settings["Alert Fatigue Delay(in seconds)"]))).transact()
+    contract.functions.set_time(str(int(datetime.now().timestamp())-2 * int(settings["Delay for Representing Data(in seconds)"]))).transact()
+    contract.functions.set_alerttime(str(int(datetime.now().timestamp())-2 * int(settings["Alert Fatigue Delay(in seconds)"]))).transact()
     contract.functions.control().transact()
     return True
 
@@ -58,7 +60,7 @@ def retrieve_data(patient):
                     break
 
 def oracle():
-    with open(r".vscode/settings.json","r") as infile:
+    with open(r"settings.json","r") as infile:
         settings = json.load(infile)
     for key in contract_data.keys():
         contract = w3.eth.contract(address=contract_data[key][2],abi=contract_data[key][0],bytecode=contract_data[key][1])

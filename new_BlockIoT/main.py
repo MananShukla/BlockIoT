@@ -6,8 +6,6 @@ from blockchain import * # type: ignore
 from oracle import * # type: ignore
 import schedule,os
 
-with open(r".vscode/settings.json","r") as infile:
-        settings = json.load(infile)
 # Keywords such as BL_timestamp signify what type of data will be present there. 
 
 with open(r"contract_data.json","w") as infile:
