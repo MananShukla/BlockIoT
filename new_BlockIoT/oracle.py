@@ -12,13 +12,11 @@ from datetime import datetime
 import ast
 import pretty_errors
 
-with open(r"new_BlockIoT/contract_data.json","r") as infile:
+with open(r"contract_data.json","r") as infile:
     contract_data = json.load(infile)
 
 def make_api_call(contract):
-    with open(r"/new_BlockIoT/.vscode/settings.json","r") as infile:
-        settings = json.load(infile)
-    with open(r"new_BlockIoT/contract_data.json","r") as infile:
+    with open(r"contract_data.json","r") as infile:
         contract_data = json.load(infile)
     old_key = contract.functions.get_hash().call()
     contract = w3.eth.contract(address=contract_data[str(old_key)][2],abi=contract_data[str(old_key)][0],bytecode=contract_data[str(old_key)][1])
@@ -41,13 +39,13 @@ def make_api_call(contract):
     contract.functions.set_hash(old_key).transact()
     contract.functions.set_data(str(df_data)).transact()
     contract.functions.set_config_file(str(config)).transact()
-    contract.functions.set_time(str(int(datetime.now().timestamp())-2 * int(settings["Delay for Representing Data(in seconds)"]))).transact()
-    contract.functions.set_alerttime(str(int(datetime.now().timestamp())-2 * int(settings["Alert Fatigue Delay(in seconds)"]))).transact()
+    # contract.functions.set_time(str(int(datetime.now().timestamp())-2 * int(settings["Delay for Representing Data(in seconds)"]))).transact()
+    # contract.functions.set_alerttime(str(int(datetime.now().timestamp())-2 * int(settings["Alert Fatigue Delay(in seconds)"]))).transact()
     contract.functions.control().transact()
     return True
 
 def retrieve_data(patient):
-    with open(r"new_BlockIoT/contract_data.json","r") as infile:
+    with open(r"contract_data.json","r") as infile:
         contract_data = json.load(infile)
     for key in contract_data.keys():
         contract = w3.eth.contract(address=contract_data[key][2],abi=contract_data[key][0],bytecode=contract_data[key][1])
@@ -60,7 +58,7 @@ def retrieve_data(patient):
                     break
 
 def oracle():
-    with open(r"new_BlockIoT/.vscode/settings.json","r") as infile:
+    with open(r".vscode/settings.json","r") as infile:
         settings = json.load(infile)
     for key in contract_data.keys():
         contract = w3.eth.contract(address=contract_data[key][2],abi=contract_data[key][0],bytecode=contract_data[key][1])

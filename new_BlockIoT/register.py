@@ -6,8 +6,9 @@ from adherence_helper import * # type: ignore
 from solidity_helper import * # type: ignore
 from blockchain import * # type: ignore
 from oracle import * # type: ignore
-
-with open(r"new_BlockIoT/contract_data.json","r") as infile:
+import ipfshttpclient # type: ignore
+client = ipfshttpclient.connect()
+with open(r"contract_data.json","r") as infile:
     contract_data = json.load(infile)
 
 def registration(config):
@@ -21,20 +22,20 @@ def registration(config):
     #Create shorthand, and hash it.
     key = generate_key(config) # type: ignore
     #Create smart contract
-    file1 = open(r"new_BlockIoT/Contracts/register.sol","r")
+    file1 = open(r"Contracts/register.sol","r")
     pt_contract = str(file1.read())
     pt_contract = pt_contract.replace("contract emr","contract " + key)
     # Make sure that the contract title is hashed.
-    f = open("new_BlockIoT/Published/"+str(key) + ".sol", "w")
+    f = open("Published/"+str(key) + ".sol", "w")
     f.write(pt_contract)
     f.close()
     deploy(str(key))
     add_register_data(config,key) # type: ignore
     #Publish the templates related to the patient.
-    file1 = open(r"new_BlockIoT/Contracts/calc_" + config["template"] + ".sol","r")
+    file1 = open(r"Contracts/calc_" + config["template"] + ".sol","r")
     pt_contract = str(file1.read())
     pt_contract = pt_contract.replace("contract calc_" + config["template"],"contract calc_" + config["template"] + "_" + key)
-    f = open("new_BlockIoT/Published/"+"calc_"+ config["template"] + "_" + str(key) + ".sol", "w")
+    f = open("Published/"+"calc_"+ config["template"] + "_" + str(key) + ".sol", "w")
     f.write(pt_contract)
     f.close()
     deploy("calc_"+config["template"] + "_" + str(key))
@@ -55,12 +56,18 @@ def generate_key(config):
     key = ""
     hashed_config = "first=" + config["first_name"] + "last=" + config["last_name"]+"dob="+config["dob"]
     found = False
-    key = hash(hashed_config)
+    for element in client.key.list()['Keys']:
+        if list(element.values())[0] == hashed_config:
+            key = list(element.values())[1]
+            found = True
+            break
+    if found == False:
+        key = list(client.key.gen(hashed_config,type='rsa').values())[1]
     return key
 
 def add_register_data(config,key):
     contract_data = dict()
-    with open(r"new_BlockIoT/contract_data.json","r") as infile:
+    with open(r"contract_data.json","r") as infile:
         contract_data = json.load(infile)
     contract = w3.eth.contract(address=contract_data[key][2],abi=contract_data[key][0],bytecode=contract_data[key][1])
     contract.functions.add_biometrics(0,config["first_name"]).transact()

@@ -5,9 +5,9 @@ from web3 import EthereumTesterProvider
 from web3.auto.gethdev import w3
 
 def deploy(name):
-    with open(r"new_BlockIoT/contract_data.json","r") as infile:
+    with open(r"contract_data.json","r") as infile:
         contract_data = json.load(infile)
-    file1 = open("new_BlockIoT/Published/" + name + ".sol","r")
+    file1 = open("Published/" + name + ".sol","r")
     compiled_sol = compile_standard({
         "language": "Solidity",
         "sources": {
@@ -43,7 +43,7 @@ def deploy(name):
     greeter = w3.eth.contract(address=tx_receipt.contractAddress,abi=abi)
     contract_data[name] = [abi,bytecode,tx_receipt.contractAddress]
     file1.close()
-    with open(r"new_BlockIoT/contract_data.json","w") as outfile:
+    with open(r"contract_data.json","w") as outfile:
         json.dump(contract_data, outfile)
 
 def deploy_templates(template_name):
