@@ -1,13 +1,11 @@
 
 from web3.auto.gethdev import w3
 import json
-import ipfshttpclient # type: ignore
 from register import * # type: ignore
 from adherence_helper import * # type: ignore
 from solidity_helper import * # type: ignore
 from blockchain import * # type: ignore
 from oracle import * # type: ignore
-client = ipfshttpclient.connect()
 
 with open(r"new_BlockIoT/contract_data.json","r") as infile:
     contract_data = json.load(infile)
@@ -57,13 +55,7 @@ def generate_key(config):
     key = ""
     hashed_config = "first=" + config["first_name"] + "last=" + config["last_name"]+"dob="+config["dob"]
     found = False
-    for element in client.key.list()['Keys']:
-        if list(element.values())[0] == hashed_config:
-            key = list(element.values())[1]
-            found = True
-            break
-    if found == False:
-        key = list(client.key.gen(hashed_config,type='rsa').values())[1]
+    key = hash(hashed_config)
     return key
 
 def add_register_data(config,key):

@@ -16,7 +16,7 @@ with open(r"new_BlockIoT/contract_data.json","r") as infile:
     contract_data = json.load(infile)
 
 def make_api_call(contract):
-    with open(r"/Users/manan/Documents/BlockIoT/Code/new_BlockIoT/.vscode/settings.json","r") as infile:
+    with open(r"/new_BlockIoT/.vscode/settings.json","r") as infile:
         settings = json.load(infile)
     with open(r"new_BlockIoT/contract_data.json","r") as infile:
         contract_data = json.load(infile)
@@ -60,7 +60,7 @@ def retrieve_data(patient):
                     break
 
 def oracle():
-    with open(r"/Users/manan/Documents/BlockIoT/Code/new_BlockIoT/.vscode/settings.json","r") as infile:
+    with open(r"new_BlockIoT/.vscode/settings.json","r") as infile:
         settings = json.load(infile)
     for key in contract_data.keys():
         contract = w3.eth.contract(address=contract_data[key][2],abi=contract_data[key][0],bytecode=contract_data[key][1])

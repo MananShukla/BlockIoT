@@ -10,18 +10,18 @@ def start_ipfs():
     call(["ipfs","daemon"],stderr=DEVNULL,stdout=DEVNULL)
 
 def start_dashboard():
-    call(["python3","/home/ec2-user/BlockIoT/new_BlockIoT/dashboard.py"],stderr=DEVNULL,stdout=DEVNULL)
+    call(["python3","new_BlockIoT/dashboard.py"],stderr=DEVNULL,stdout=DEVNULL)
 def start_main():
-    call(["python3","/home/ec2-user/BlockIoT/new_BlockIoT/main.py"])
+    call(["python3","new_BlockIoT/main.py"])
 if __name__ == '__main__':
     p = multiprocessing.Process(target=start_ethereum)
     p.start()
     time.sleep(5)
     print("Ethereum Started")
-    p = multiprocessing.Process(target=start_ipfs)
+    p = multiprocessing.Process(target=start_dashboard)
     p.start()
     time.sleep(5)
-    print("IPFS Started")
+    print("Dashboard Started")
     p = multiprocessing.Process(target=start_main)
     p.start()
     time.sleep(1)

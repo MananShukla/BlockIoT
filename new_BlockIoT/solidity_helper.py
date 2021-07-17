@@ -8,7 +8,6 @@ import pandas as pd # type: ignore
 import plotly.express as px
 import plotly
 from collections import OrderedDict
-import ipfshttpclient # type: ignore
 import os.path
 from os import path
 

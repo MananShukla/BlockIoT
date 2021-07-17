@@ -3,8 +3,6 @@ from solc import compile_standard # type: ignore
 from web3 import Web3
 from web3 import EthereumTesterProvider
 from web3.auto.gethdev import w3
-import ipfshttpclient # type: ignore
-client = ipfshttpclient.connect()
 
 def deploy(name):
     with open(r"new_BlockIoT/contract_data.json","r") as infile:

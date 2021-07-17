@@ -73,6 +73,8 @@ pycodestyle==2.7.0
 pycryptodome==3.10.1
 pyethash==0.1.27
 pygame==2.0.1
+pyobjc-core==7.3
+pyobjc-framework-Cocoa==7.3
 pyparsing==2.4.7
 pyperclip==1.8.2
 pyrsistent==0.17.3
